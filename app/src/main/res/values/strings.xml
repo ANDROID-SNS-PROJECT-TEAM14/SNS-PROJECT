@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TEAM14_SNS_PROJECT</string>
+    <string name="facebook_application_id" translatable="false">YOUR_APP_ID</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fbYOUR_APP_ID</string>
+    <string name="login_to_other_sns">다른 계정으로 로그인 하기</string>
+    <string name="qusetion_no_sns">계정이 없으신가요?</string>
+    <string name="join">회원가입</string>
+    <string name="login">로그인</string>
+</resources>
