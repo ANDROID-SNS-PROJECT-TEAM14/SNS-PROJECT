@@ -16,4 +16,5 @@ class MainActivity : AppCompatActivity() {
         binding.textView2.text = intent.getStringExtra("password")
     }
 
+
 }
