@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeFrag"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home"
+        />
+    <item
+        android:id="@+id/directMessage"
+        android:title="@string/directMessage"
+        android:icon="@drawable/ic_direct_message"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/postFrag"
+        android:title="@string/post"
+        android:icon="@drawable/ic_post"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/personAddFrag"
+        android:title="@string/personAdd"
+        android:icon="@drawable/ic_person_add"
+        android:enabled="true"/>
+    <item
+        android:id="@+id/myprofileFrag"
+        android:title="@string/myprofile"
+        android:icon="@drawable/ic_my_profile"
+        android:enabled="true"/>
+</menu>

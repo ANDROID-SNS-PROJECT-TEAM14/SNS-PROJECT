@@ -6,4 +6,14 @@
     <string name="qusetion_no_sns">계정이 없으신가요?</string>
     <string name="join">회원가입</string>
     <string name="login">로그인</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">home</string>
+    <string name="directMessage">DM</string>
+    <string name="search">search</string>
+    <string name="post">post</string>
+    <string name="personAdd">personAdd</string>
+    <string name="myprofile">profile</string>
+    <string name="upload_btn">UPLOAD</string>
+    <string name="decription_hint">Image description</string>
 </resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".navi.AddPostActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+        <ImageView
+            android:src="@drawable/ic_my_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </androidx.appcompat.widget.Toolbar>
+    
+    <LinearLayout
+        android:id="@+id/toolbar_division"
+        android:background="@color/white"
+        android:layout_below="@+id/toolbar"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/editText"
+        android:layout_below="@+id/toolbar_division"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/editDescription"
+            android:hint="@string/decription_hint"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/addphotoImage"
+        android:layout_margin="8dp"
+        android:layout_below="@+id/editText"
+        android:layout_width="390dp"
+        android:layout_height="390dp"/>
+
+    <Button
+        android:id="@+id/uploadBtn"
+        android:text="@string/upload_btn"
+        android:layout_margin="5dp"
+        android:layout_below="@id/addphotoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/addphotoImageBtn"
+        android:text="add photo"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/addphotoImage"
+        android:layout_toRightOf="@+id/uploadBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

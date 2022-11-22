@@ -103,7 +103,8 @@ class SignInActivity : AppCompatActivity(){
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
                     Log.w("로그인 성공", logMessage)
-                    val intent = Intent(this, MainActivity::class.java)
+                    //val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, NaviActivity::class.java)
                     intent.putExtra("email", userEmail)
                     intent.putExtra("password", password)
                     startActivity(intent)
