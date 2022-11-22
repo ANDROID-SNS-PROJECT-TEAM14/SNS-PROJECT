@@ -41,21 +41,21 @@ class SignUpGoogleActivity : AppCompatActivity() {
                     "id" to userId,
                     "name" to userName
                 )
-               val userCollection = fireStore.collection("Users")
+                val userCollection = fireStore.collection("Users")
                 userCollection.document(userEmail).set(userMap)
-                .addOnCompleteListener{ task ->
-                    if(task.isSuccessful){
-                        Log.w("구글 유저 데이터베이스 삽입 : ", "성공")
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("userType", "googleLogin")
-                        intent.putExtra("userEmail", userEmail)
-                        startActivity(intent)
-                        finish()
+                    .addOnCompleteListener{ task ->
+                        if(task.isSuccessful){
+                            Log.w("구글 유저 데이터베이스 삽입 : ", "성공")
+                            val intent = Intent(this, MainActivity::class.java)
+                            intent.putExtra("userType", "googleLogin")
+                            intent.putExtra("userEmail", userEmail)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }.addOnFailureListener{
+                        Log.w("구글 유저 데이터베이스 삽입 : ", "실패")
+                        Log.w("구글 유저 데이터베이스 삽입 실패 이유: ", "$userEmail $userType $userId $userName")
                     }
-                }.addOnFailureListener{
-                    Log.w("구글 유저 데이터베이스 삽입 : ", "실패")
-                    Log.w("구글 유저 데이터베이스 삽입 실패 이유: ", "$userEmail $userType $userId $userName")
-                }
             }
             else {
                 // warning

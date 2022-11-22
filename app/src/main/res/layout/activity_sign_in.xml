@@ -24,7 +24,7 @@
         android:id="@+id/signInTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="60dp"
         android:text="@string/login_to_other_sns"
         android:textColor="@android:color/darker_gray"
         android:textStyle="bold"
@@ -37,10 +37,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="70dp"
-        android:text="Gmail"
+        android:layout_marginTop="100dp"
+        android:text="이메일"
         android:textColor="#3F51B5"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/signInTopicName"
         app:layout_constraintTop_toBottomOf="@+id/signInTopicName" />
@@ -50,9 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Password"
+        android:text="비밀번호"
         android:textColor="#3F51B5"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/signInEmailEditText"
         app:layout_constraintTop_toBottomOf="@+id/signInEmailEditText" />
@@ -61,16 +61,17 @@
         android:id="@+id/signInTextView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="48dp"
         android:layout_marginTop="8dp"
         android:text="@string/qusetion_no_sns"
-        app:layout_constraintStart_toStartOf="@+id/signInFaceBookBtn"
-        app:layout_constraintTop_toBottomOf="@+id/signInFaceBookBtn" />
+        app:layout_constraintStart_toStartOf="@+id/signInGoogleBtn"
+        app:layout_constraintTop_toBottomOf="@+id/signInGoogleBtn" />
 
     <EditText
         android:id="@+id/signInEmailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/signInSpinner"
@@ -81,6 +82,7 @@
         android:id="@+id/signInPassswordEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:inputType="textPassword"
@@ -107,7 +109,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="#023F96"
-        android:text="@string/login"
+        android:text="@string/signIn"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/signInTopicName"
         app:layout_constraintStart_toStartOf="@+id/signInTextView2"
@@ -124,21 +126,13 @@
         app:layout_constraintTop_toBottomOf="@+id/signInTextView1"
         app:srcCompat="@drawable/login_google" />
 
-    <ImageView
-        android:id="@+id/signInFaceBookBtn"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        app:layout_constraintEnd_toEndOf="@+id/signInGoogleBtn"
-        app:layout_constraintStart_toStartOf="@+id/signInGoogleBtn"
-        app:layout_constraintTop_toBottomOf="@+id/signInGoogleBtn"
-        app:srcCompat="@drawable/login_facebook" />
 
     <TextView
         android:id="@+id/signInGoToSignUpBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/join"
+        android:layout_marginStart="16dp"
+        android:text="@string/signUp"
         android:textColor="#3F51B5"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/signInTextView5"
@@ -149,7 +143,7 @@
         android:id="@+id/signInSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/signInEmailEditText"
         app:layout_constraintEnd_toEndOf="@+id/signInTopicName"
         app:layout_constraintTop_toTopOf="@+id/signInEmailEditText" />
