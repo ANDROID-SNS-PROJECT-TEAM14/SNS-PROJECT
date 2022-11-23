@@ -6,12 +6,16 @@ import android.content.ClipData
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.team14_sns_project.databinding.ActivitySignInBinding
@@ -37,6 +41,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
+import org.checkerframework.checker.units.qual.Length
+import java.util.regex.Pattern
 
 
 class SignInActivity : AppCompatActivity(){
@@ -53,6 +59,8 @@ class SignInActivity : AppCompatActivity(){
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
 
+    private var emailFlag : Boolean = false
+    private var pwFlag : Boolean = false
     private var flag: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,9 +68,9 @@ class SignInActivity : AppCompatActivity(){
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        fireStore = Firebase.firestore
         initGoogleSignIn()
 
+        fireStore = Firebase.firestore
         auth = Firebase.auth
         emailEditText = binding.signInEmailEditText
         passwordEditText = binding.signInPassswordEditText
@@ -72,6 +80,7 @@ class SignInActivity : AppCompatActivity(){
         val signInBtn = binding.signInBtn
         val googleBtn = binding.signInGoogleBtn
         //val facebookBtn = binding.signInFaceBookBtn
+        val passwordCheckText = binding.signInPwCheckText
         val gotoSignUpBtn = binding.signInGoToSignUpBtn
         val spinner = binding.signInSpinner
 
@@ -80,7 +89,6 @@ class SignInActivity : AppCompatActivity(){
 
         val spinnerAdapter: ArrayAdapter<String> = ArrayAdapter<String>(this, R.layout.simple_spinner_item, emailAddress)
         spinnerAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             // Spinner 아이템 선택
@@ -101,10 +109,75 @@ class SignInActivity : AppCompatActivity(){
 
         }
 
-        passwordView.setOnClickListener {
+        // email 변경 감지
+        val emaildWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
 
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 이메일이 비어있지 않은 경우에 true
+                emailFlag = emailEditText.text.toString() != ""
+            }
+        }
+        emailEditText.addTextChangedListener(emaildWatcher)
+
+        // password 변경 감지
+        val passwordWatcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 비밀번호가 6자리 이상인 경우
+                if(passwordEditText.text.toString().length >= 6) {
+                    // 경고 문구 변경.
+                    passwordCheckText.text = ""
+                    pwFlag = true
+                }
+
+                // 비밀번호가 6자리 미만인 경우
+                else {
+                    // 경고 문구 변경.
+                    passwordCheckText.text = "6자리 이상 입력해주시오."
+                    // 경고 문구색 빨간색으로 변경.
+                    passwordCheckText.setTextColor(Color.parseColor("#F44336"))
+                    pwFlag = false
+                }
+            }
+        }
+        passwordEditText.addTextChangedListener(passwordWatcher)
+
+        // email과 password 변경 감지
+        val watcher = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 버튼 활성화 조건에 해당되는 경우
+                if( emailFlag && pwFlag) {
+                    // 버튼 활성화
+                    signInBtn.isEnabled = true
+                    signInBtn.setBackgroundColor(Color.parseColor("#023F96"))
+                }
+                // 아닌 경우
+                else {
+                    // 버튼 무효화
+                    signInBtn.isEnabled = false
+                    signInBtn.setBackgroundColor(Color.parseColor("#DDDDDD"))
+                }
+            }
+        }
+        emailEditText.addTextChangedListener(watcher)
+        passwordEditText.addTextChangedListener(watcher)
+
+        // 비밀번호 보이게 하는 버튼
+        passwordView.setOnClickListener {
+            /** 메소드 추가 예정 ... */
         }
 
+        // 로그인 버튼
         signInBtn.setOnClickListener {
             val userEmail = emailEditText.text.toString() + userAddressPick
             val password = passwordEditText.text.toString()
@@ -142,15 +215,14 @@ class SignInActivity : AppCompatActivity(){
                     }
                 })
         }
-*/
-
+        */
+        // 회원가입 버튼
         gotoSignUpBtn.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
-
     }
 
-
+    // 이메일과 비밀번호로 로그인
     private fun doSignIn(userEmail: String, password: String) {
         val logMessage = "User 이메일 : " + userEmail + "비밀번호 : " + password
         Firebase.auth.signInWithEmailAndPassword(userEmail, password)
@@ -165,28 +237,19 @@ class SignInActivity : AppCompatActivity(){
                 }
                 else {
                     Log.w("로그인 실패", logMessage)
-
-                    // warningDialog
-                    // 이메일과 비밀번호를 입력 안했을 경우
-                    if (userEmail == null || password == null) {
-
-                    }
-                    // 아이디와 비밀번호를 틀리게 입력한 경우
-                    else {
-
-                    }
+                    // warningDialog or Toast Message
+                    // 아이디와 비밀번호를 틀리게 입력했거나 기타 오류인 경우
+                    Toast.makeText(this, "로그인 실패. 다시 시도하시오.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
     private fun initGoogleSignIn() {
-
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             // default_client_id가 인식되지 않아 리소스를 그대로 복사
             .requestIdToken("16439493728-mbqgnvttk0hrgm23gq1obacsjs9fkr25.apps.googleusercontent.com")
             .requestEmail()
             .build()
-
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
     }
 
@@ -206,7 +269,6 @@ class SignInActivity : AppCompatActivity(){
                         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                         auth.signInWithCredential(credential).addOnCompleteListener{
                             if(it.isSuccessful){
-                                // 이미 계정아이디를 생성한 유저라면
                                 val userCollection = fireStore.collection("Users")
                                 userCollection.get()
                                     .addOnSuccessListener { result ->
@@ -216,6 +278,7 @@ class SignInActivity : AppCompatActivity(){
                                             if (document.id == account.email.toString()) {
                                                 Log.w("MainActivity 이동 : ", "성공")
                                                 flag = true
+                                                // 이미 계정아이디를 생성한 유저라면 바로 MainActivity로 이동
                                                 val intent1 = Intent(this, MainActivity::class.java)
                                                 intent1.putExtra("userType", "googleLogin")
                                                 intent1.putExtra("userEmail", account.email.toString())
@@ -223,6 +286,7 @@ class SignInActivity : AppCompatActivity(){
                                                 finish()
                                             }
                                         }
+                                        // google sign한 user가 계정아이디가 없을 경우 SignUpGoogleActivity로 이동하여 생성
                                         if(!flag) {
                                             Log.w("SignUpGoogleActivity 이동 : ", "성공")
                                             val intent2 = Intent(this, SignUpGoogleActivity::class.java)
@@ -256,7 +320,7 @@ class SignInActivity : AppCompatActivity(){
         }
     }
 
-/*
+    /*
     private fun handleFacebookAccessToken(token: AccessToken) {
 
         val credential = FacebookAuthProvider.getCredential(token.token)
@@ -291,19 +355,17 @@ class SignInActivity : AppCompatActivity(){
     }
     */
 
-
     override fun onStart() {
         super.onStart()
         emailEditText.text = null
         passwordEditText.text = null
-        auth = Firebase.auth
-        // Check if user is signed in (non-null) and update UI accordingly.
         /*
+        auth = Firebase.auth
         val currentUser = auth.currentUser
         if (currentUser != null) {
             updateUI(currentUser)
         }
-         */
+        */
     }
 }
 

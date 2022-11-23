@@ -35,13 +35,13 @@
         android:id="@+id/signUpTextView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="이메일"
         android:textColor="#3F51B5"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/signUpTextView6"
-        app:layout_constraintTop_toBottomOf="@+id/signUpIdEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpIdCheckText" />
 
     <TextView
         android:id="@+id/signUpTextView4"
@@ -59,20 +59,20 @@
         android:id="@+id/signUpTextView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="비밀번호 확인"
         android:textColor="#3F51B5"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/signUpEmailEditText"
-        app:layout_constraintTop_toBottomOf="@+id/signUpPassswordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpPasswordOverSixText" />
 
     <TextView
         android:id="@+id/signUpTextView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="75dp"
         android:text="계정 아이디"
         android:textColor="#3F51B5"
         android:textSize="14sp"
@@ -81,12 +81,27 @@
         app:layout_constraintTop_toBottomOf="@+id/signUpTopicName" />
 
     <EditText
-        android:id="@+id/signUpNameEditText"
-        android:layout_width="100dp"
+        android:id="@+id/signUpIdEditText"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
+        android:hint="영어로만 "
         android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/signUpTextView6"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTextView6" />
+
+    <EditText
+        android:id="@+id/signUpNameEditText"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="영어 또는 한글"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/signUpIdEditText"
         app:layout_constraintStart_toStartOf="@+id/signUpTextView"
         app:layout_constraintTop_toBottomOf="@+id/signUpTextView" />
 
@@ -94,9 +109,10 @@
         android:id="@+id/signUpEmailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/signUpSpinner"
         app:layout_constraintStart_toStartOf="@+id/signUpTextView3"
         app:layout_constraintTop_toBottomOf="@+id/signUpTextView3" />
@@ -105,10 +121,12 @@
         android:id="@+id/signUpPassswordEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
+        android:hint="6자리 이상 입력"
         android:inputType="textPassword"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/signUpBtn"
         app:layout_constraintStart_toStartOf="@+id/signUpTextView4"
         app:layout_constraintTop_toBottomOf="@+id/signUpTextView4" />
@@ -117,10 +135,11 @@
         android:id="@+id/signUpPassswordEditCheckText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/signUpBtn"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/signUpTextView5"
@@ -132,7 +151,8 @@
         android:layout_height="60dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="#023F96"
+        android:background="#DDDDDD"
+        android:enabled="false"
         android:text="@string/signUp"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/signUpTopicName"
@@ -148,15 +168,15 @@
         app:layout_constraintEnd_toEndOf="@+id/signUpTopicName"
         app:layout_constraintTop_toTopOf="@+id/signUpEmailEditText" />
 
-    <EditText
-        android:id="@+id/signUpIdEditText"
-        android:layout_width="150dp"
+    <TextView
+        android:id="@+id/signUpIdCheckText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/signUpTextView6"
-        app:layout_constraintTop_toBottomOf="@+id/signUpTextView6" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/signUpIdEditText"
+        app:layout_constraintTop_toBottomOf="@+id/signUpIdEditText" />
 
     <TextView
         android:id="@+id/signUpNameCheckText"
@@ -167,6 +187,16 @@
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="@+id/signUpNameEditText"
         app:layout_constraintTop_toBottomOf="@+id/signUpNameEditText" />
+
+    <TextView
+        android:id="@+id/signUpPasswordOverSixText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/signUpPassswordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/signUpPassswordEditText" />
 
     <TextView
         android:id="@+id/signUpPasswordCheckText"

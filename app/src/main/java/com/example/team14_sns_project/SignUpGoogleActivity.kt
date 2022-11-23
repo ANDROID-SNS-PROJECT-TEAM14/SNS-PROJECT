@@ -28,12 +28,12 @@ class SignUpGoogleActivity : AppCompatActivity() {
         userEmail = intent.getStringExtra("userEmail").toString()
         userName = intent.getStringExtra("userName").toString()
 
-
-
         binding.signUpGoogleBtn.setOnClickListener {
             // id 값이 비어있지 않으면
             if(binding.signUpGoogleIdEditText.text.toString() != "") {
                 userId = binding.signUpGoogleIdEditText.text.toString()
+                // 유저 hashMap 생성
+                // password는 구글 로그인일때만 비워놓음
                 val userMap = hashMapOf(
                     "type" to userType,
                     "email" to userEmail,
@@ -41,6 +41,7 @@ class SignUpGoogleActivity : AppCompatActivity() {
                     "id" to userId,
                     "name" to userName
                 )
+                // Users collection 가져와서 user 정보 데이터베이스에 삽입
                 val userCollection = fireStore.collection("Users")
                 userCollection.document(userEmail).set(userMap)
                     .addOnCompleteListener{ task ->
@@ -59,9 +60,8 @@ class SignUpGoogleActivity : AppCompatActivity() {
             }
             else {
                 // warning
+                // Toast 메세지 또는 다이얼로그 띄우기
             }
         }
     }
-
-
 }

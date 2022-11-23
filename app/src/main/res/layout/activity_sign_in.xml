@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="75dp"
         android:text="이메일"
         android:textColor="#3F51B5"
         android:textSize="14sp"
@@ -49,7 +49,7 @@
         android:id="@+id/signInTextView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="비밀번호"
         android:textColor="#3F51B5"
         android:textSize="14sp"
@@ -108,12 +108,13 @@
         android:layout_height="60dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="#023F96"
+        android:background="#DDDDDD"
+        android:enabled="false"
         android:text="@string/signIn"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/signInTopicName"
         app:layout_constraintStart_toStartOf="@+id/signInTextView2"
-        app:layout_constraintTop_toBottomOf="@+id/signInPassswordEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/signInPwCheckText" />
 
     <ImageView
         android:id="@+id/signInGoogleBtn"
@@ -154,5 +155,15 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/signInSpinner"
         app:layout_constraintTop_toBottomOf="@+id/signInSpinner" />
+
+    <TextView
+        android:id="@+id/signInPwCheckText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="@+id/signInPassswordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/signInPassswordEditText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
