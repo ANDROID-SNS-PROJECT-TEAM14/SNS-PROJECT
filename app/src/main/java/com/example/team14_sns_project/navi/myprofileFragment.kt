@@ -31,7 +31,7 @@ class myprofileFragment : Fragment() {
     private lateinit var userNameEditText: TextView
     private lateinit var userFollowerEditText: TextView
     private lateinit var userFollowingEditText: TextView
-    private lateinit var logOutBtn : Button
+    private lateinit var logOutBtn : TextView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle? ): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_myprofile, container, false)
@@ -103,7 +103,6 @@ class myprofileFragment : Fragment() {
             googleSignInClient.signOut()
             FirebaseAuth.getInstance().signOut()
         }
-
         return view
     }
 

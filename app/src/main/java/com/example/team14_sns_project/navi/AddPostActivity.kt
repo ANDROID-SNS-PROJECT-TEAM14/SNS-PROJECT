@@ -60,8 +60,6 @@ class  AddPostActivity : AppCompatActivity() {
         }
     }
 
-
-
     private fun contentUpload() {
         // 파일 이름 만들어줌
         var timesnap = SimpleDateFormat("yyyyMMdd_hhmmss").format(Date())

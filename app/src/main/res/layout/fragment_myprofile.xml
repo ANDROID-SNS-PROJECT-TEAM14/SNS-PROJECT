@@ -47,7 +47,7 @@
         android:id="@+id/myProfileImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         android:src="@drawable/com_facebook_profile_picture_blank_square"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,16 +129,17 @@
         app:layout_constraintStart_toStartOf="@+id/myProfileFollowingText"
         app:layout_constraintTop_toBottomOf="@+id/myProfileFollowingText" />
 
-    <Button
+    <TextView
         android:id="@+id/myProfileLogOutBtn"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="60dp"
-        android:background="#E5EFFE"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:text="@string/logOut"
+        android:textColor="#000000"
         android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/myProfileTopicBackground"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myProfileFollowing" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

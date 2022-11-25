@@ -1,6 +1,7 @@
 package com.example.team14_sns_project
 
 import android.R
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -90,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
                     idFlag = true
                 }
 
-                // 이름이 한글 또는 영어 정규 표현식에 어긋난 경우
+                // 아이디가 영어 정규 표현식에 어긋난 경우
                 else {
                     // 경고 문구 변경.
                     idCheckText.text = "영어로만 입력하시오."
@@ -140,6 +141,14 @@ class SignUpActivity : AppCompatActivity() {
                     // 경고 문구 변경.
                     passwordOverSixText.text = ""
                     pwFlag = true
+                }
+                // 비밀번호에 영어 or 숫자가 아닌 문자가 포함된 경우
+                else if(!Pattern.matches("^[a-zA-Z0-9]*\$", passwordEditText.text.toString())) {
+                    // 경고 문구 변경.
+                    passwordOverSixText.text = "영어 또는 숫자로만 입력하시오."
+                    // 경고 문구색 빨간색으로 변경.
+                    passwordOverSixText.setTextColor(Color.parseColor("#F44336"))
+                    nameFlag = false
                 }
 
                 // 비밀번호가 6자리 미만인 경우
@@ -211,41 +220,59 @@ class SignUpActivity : AppCompatActivity() {
         passwordEditText.addTextChangedListener(watcher)
         passwordCheckEditText.addTextChangedListener(watcher)
 
-
         signUpBtn.setOnClickListener {
-            val logMessage =
-                "User Email : " + emailEditText.text.toString() + userAddressPick +
-                        "User Pw : " + passwordEditText.text.toString() +
-                        "User Id : " + idEditText.text.toString() +
-                        "User Name : " + nameEditText.text.toString()
+            // 이메일 입력이 비어있을 시
+            if(emailEditText.text.toString() == "") {
+                val dialog = WarningDialog(0)
+                dialog.show(supportFragmentManager, "warningDialog")
+            }
+            // 이메일 입력에 도메인 주소가 포함되어 있을시
+            else if(emailEditText.text.toString().contains("@") || emailEditText.text.toString().contains(".")) {
+                val dialog = WarningDialog(1)
+                dialog.show(supportFragmentManager, "warningDialog")
+            }
+            // 이메일 입력이 영어 소문자 또는 숫자가 아닐시 (firestore는 currentUser.email이 소문자로 저장되기 때문에 막기)
+            else if(!Pattern.matches("^[a-z0-9]*\$", emailEditText.text.toString())) {
+                val dialog = WarningDialog(2)
+                dialog.show(supportFragmentManager, "warningDialog")
+            }
+            else {
+                val logMessage =
+                    "User Email : " + emailEditText.text.toString() + userAddressPick +
+                            "User Pw : " + passwordEditText.text.toString() +
+                            "User Id : " + idEditText.text.toString() +
+                            "User Name : " + nameEditText.text.toString()
 
-            Log.w("[signUp] : " , logMessage)
-            Firebase.auth.createUserWithEmailAndPassword(emailEditText.text.toString()+userAddressPick, passwordEditText.text.toString())
-                .addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        // task.result?.user => user
-                        Log.w("회원가입 성공", logMessage)
-                        val userMap = hashMapOf(
-                            "type" to "emailLogin",
-                            "email" to emailEditText.text.toString()+userAddressPick,
-                            "password" to passwordEditText.text.toString(),
-                            "id" to idEditText.text.toString(),
-                            "name" to nameEditText.text.toString()
-                        )
-                        userCollection.document(emailEditText.text.toString()+userAddressPick).set(userMap)
-                            .addOnSuccessListener {
-                                Log.w("유저 데이터베이스 삽입 : ", "성공")
-                            }.addOnFailureListener {
-                                Log.w("유저 데이터베이스 삽입 : ", "실패")
-                            }
-                        intent = Intent(this, SignInActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                Log.w("[signUp] : " , logMessage)
+                Firebase.auth.createUserWithEmailAndPassword(emailEditText.text.toString()+userAddressPick, passwordEditText.text.toString())
+                    .addOnCompleteListener { task ->
+                        if(task.isSuccessful){
+                            // task.result?.user => user
+                            Log.w("회원가입 성공", logMessage)
+                            val userMap = hashMapOf(
+                                "type" to "emailLogin",
+                                "email" to emailEditText.text.toString()+userAddressPick,
+                                "password" to passwordEditText.text.toString(),
+                                "id" to idEditText.text.toString(),
+                                "name" to nameEditText.text.toString()
+                            )
+                            userCollection.document(emailEditText.text.toString()+userAddressPick).set(userMap)
+                                .addOnSuccessListener {
+                                    Log.w("유저 데이터베이스 삽입 : ", "성공")
+                                }.addOnFailureListener {
+                                    Log.w("유저 데이터베이스 삽입 : ", "실패")
+                                }
+                            intent = Intent(this, SignInActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        else{
+                            Log.w("회원가입 실패", logMessage)
+                            val dialog = WarningDialog(3)
+                            dialog.show(supportFragmentManager, "warningDialog")
+                        }
                     }
-                    else{
-                        Log.w("회원가입 실패", logMessage)
-                    }
-                }
+            }
         }
     }
 }

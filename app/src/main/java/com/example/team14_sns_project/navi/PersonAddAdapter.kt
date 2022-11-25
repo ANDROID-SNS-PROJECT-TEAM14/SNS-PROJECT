@@ -17,107 +17,72 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 data class ListData (
+    var email : String,
     var id : String,
     var name : String,
     var friendBtn : String
 )
 
-private lateinit var friendList : ArrayList<String> // 팔로잉 목록
-private var data = ArrayList<ListData>()
-private var user : String = "test"
+private lateinit var friendList : ArrayList<String>  // 사용자의 팔로잉 목록
+private var data = ArrayList<ListData>()  // fragment에서 전달받을 검색 결과 리스트
+
+private var myEmail : String = "user"  // NullException을 막기위해 일단 init
+private var myId : String = "user"  // NullException을 막기위해 일단 init
+private var myName: String = "user"  // NullException을 막기위해 일단 init
 
 class PersonAddAdapter : RecyclerView.Adapter<PersonAddAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
+        private var fireStore: FirebaseFirestore
         private var userId: TextView
         private var userName: TextView
         private var followBtn: Button
-        private var fireStore: FirebaseFirestore
 
         init {
             userId = itemView.findViewById(R.id.itemPersonId)
             userName = itemView.findViewById(R.id.itemPersonName)
             followBtn = itemView.findViewById(R.id.itemPersonBtn)
             fireStore = Firebase.firestore
-            friendList = ArrayList()
-            val userDocument = fireStore.document("/Users/$user")
-            val friend = fireStore.collection("Users").document(user).collection("Following")
 
-            friend.get().addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.w(ContentValues.TAG, "${document.id} => ${document.data}")
-                    friendList.add(document.id)
-                }
-            }.addOnFailureListener{
-                Log.w(ContentValues.TAG, "Error getting documents.")
-            }
+            // 사용자의 팔로잉 목록 초기화
+            friendList = ArrayList()
+            // 맨 처음 유저 친구정보 리스트 갱신
+            reloadFriendList()
 
             // 팔로우 or 팔로잉 버튼을 누르면
             followBtn.setOnClickListener {
+                // 위치 확인용 로그
                 var position: Int = adapterPosition
                 Log.w("RecyclerView 위치 : " , position.toString())
 
+                // 클릭한 사용자의 email과 id와 name
+                var friendEmail = data[position].email
                 var friendId = data[position].id
                 var friendName = data[position].name
 
-                // 계정아이디는 고유한 것으로 가정
+                // FireStore에 집어넣을 친구 HashMap 생성
                 val friendMap = hashMapOf(
+                    "friendEmail" to friendEmail,
                     "friendId" to friendId,
                     "friendName" to friendName
                 )
 
+                // 팔로우 버튼을 누를 시
                 if(followBtn.text == "팔로우") {
-                    if(user != null) {
-                        userDocument.collection("Following")
-                            .document(friendId).set(friendMap)
-                            .addOnSuccessListener {
-                                Log.w("Following", "성공")
-                                followBtn.text = "팔로잉"
-                                followBtn.setBackgroundColor(Color.parseColor("#DDDDDD"))
-                                followBtn.setTextColor(Color.BLACK)
-
-                                friendList.clear()
-                                friend.get().addOnSuccessListener { result ->
-                                    for (document in result) {
-                                        Log.w(ContentValues.TAG, "${document.id} => ${document.data}")
-                                        friendList.add(document.id)
-                                    }
-                                }.addOnFailureListener{
-                                    Log.w(ContentValues.TAG, "Error getting documents.")
-                                }
-                        }.addOnFailureListener {
-                                Log.w("Following", "실패")
-                        }
+                    if(myEmail != null) {
+                        addFollowing(friendEmail, friendMap)
+                        addFollwer(friendEmail)
                     }
                 }
+                // 팔로잉 버튼을 누를 시
                 else {
-                    if(user != null) {
-                        userDocument.collection("Following")
-                            .document(friendId).delete()
-                            .addOnSuccessListener {
-                                Log.w("Follow", "성공")
-                                followBtn.text = "팔로우"
-                                followBtn.setBackgroundColor(Color.parseColor("#2196F3"))
-                                followBtn.setTextColor(Color.WHITE)
-
-                                friendList.clear()
-                                friend.get().addOnSuccessListener { result ->
-                                    for (document in result) {
-                                        Log.w(ContentValues.TAG, "${document.id} => ${document.data}")
-                                        friendList.add(document.id)
-                                    }
-                                }.addOnFailureListener{
-                                    Log.w(ContentValues.TAG, "Error getting documents.")
-                                }
-                            }.addOnFailureListener {
-                                Log.w("Follow", "실패")
-                            }
+                    if(myEmail != null) {
+                        deleteFollowing(friendEmail)
+                        deleteFollower(friendEmail)
                     }
                 }
             }
         }
-
         fun bind(list : ListData) {
             userId.text = "@" + list.id
             userName.text = list.name
@@ -130,6 +95,86 @@ class PersonAddAdapter : RecyclerView.Adapter<PersonAddAdapter.ViewHolder>() {
                 followBtn.text = "팔로잉"
                 followBtn.setBackgroundColor(Color.parseColor("#DDDDDD"))
                 followBtn.setTextColor(Color.BLACK)
+            }
+        }
+
+        private fun addFollowing(friendEmail : String, friendMap : HashMap<String, String>) {
+            // 현재 사용자의 document URL
+            val userDocument = fireStore.document("/Users/$myEmail")
+            userDocument.collection("Following")
+                .document(friendEmail).set(friendMap)
+                .addOnSuccessListener {
+                    Log.w("현재 사용자의 팔로잉 목록에서 다른 사용자 추가", "성공")
+                    // 팔로잉 버튼으로 변경
+                    followBtn.text = "팔로잉"
+                    followBtn.setBackgroundColor(Color.parseColor("#DDDDDD"))
+                    followBtn.setTextColor(Color.BLACK)
+                    // 유저 친구정보 리스트 갱신
+                }.addOnFailureListener {
+                    Log.w("현재 사용자의 팔로잉 목록에서 다른 사용자 추가", "실패")
+                }
+            reloadFriendList()
+        }
+
+        private fun addFollwer(friendEmail : String) {
+            // 현재 사용자의 정보를 담은 HashMap
+            val userMap = hashMapOf(
+                "friendEmail" to myEmail,
+                "friendId" to myId,
+                "friendName" to myName
+            )
+
+            // 현재 사용자의 정보를 팔로잉 유저의 팔로워 목록에 삽입
+            val friendDocument = fireStore.collection("Users").document(friendEmail)
+                .collection("Follower").document(myEmail)
+            friendDocument.set(userMap).addOnSuccessListener {
+                Log.w("친구의 팔로워 목록에서 현재 사용자 추가", "성공")
+            }.addOnFailureListener {
+                Log.w("친구의 팔로워 목록에서 현재 사용자 추가", "실패")
+            }
+            reloadFriendList()
+        }
+
+        private fun deleteFollowing(friendEmail : String) {
+            // 현재 사용자의 document URL
+            val userDocument = fireStore.document("/Users/$myEmail")
+            userDocument.collection("Following")
+                .document(friendEmail).delete()
+                .addOnSuccessListener {
+                    Log.w("현재 사용자의 팔로잉 목록에서 다른 사용자 삭제", "성공")
+                    followBtn.text = "팔로우"
+                    followBtn.setBackgroundColor(Color.parseColor("#2196F3"))
+                    followBtn.setTextColor(Color.WHITE)
+                    // 유저 친구정보 리스트 갱신
+                    reloadFriendList()
+                }.addOnFailureListener {
+                    Log.w("현재 사용자의 팔로잉 목록에서 다른 사용자 삭제", "실패")
+                }
+            reloadFriendList()
+        }
+
+        private fun deleteFollower(friendEmail : String) {
+            // 현재 사용자의 정보를 팔로잉 유저의 팔로워 목록에 삽입
+            val friendDocument = fireStore.collection("Users").document(friendEmail)
+                .collection("Follower").document(myEmail)
+            friendDocument.delete().addOnSuccessListener {
+                Log.w("친구의 팔로워 목록에서 현재 사용자 삭제", "성공")
+            }.addOnFailureListener {
+                Log.w("친구의 팔로워 목록에서 현재 사용자 삭제", "실패")
+            }
+            reloadFriendList()
+        }
+
+        private fun reloadFriendList() {
+            val friend = fireStore.collection("Users").document(myEmail).collection("Following")
+            friendList.clear()
+            friend.get().addOnSuccessListener { result ->
+                for (document in result) {
+                    Log.w(ContentValues.TAG, "${document.id} => ${document.data}")
+                    friendList.add(document.id)
+                }
+            }.addOnFailureListener{
+                Log.w(ContentValues.TAG, "Error getting documents.")
             }
         }
     }
@@ -154,7 +199,9 @@ class PersonAddAdapter : RecyclerView.Adapter<PersonAddAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setUser(name: String) {
-        user = name
+    fun setUser(email: String, id: String, name: String) {
+        myEmail = email
+        myId = id
+        myName = name
     }
 }

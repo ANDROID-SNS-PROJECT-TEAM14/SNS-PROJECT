@@ -8,7 +8,6 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.team14_sns_project.databinding.ActivityNaviBinding
 import com.example.team14_sns_project.navi.*
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
