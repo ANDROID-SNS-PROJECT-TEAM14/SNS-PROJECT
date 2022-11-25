@@ -17,11 +17,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 // 사람들 피드 나타나는 home Fragment
 class homeFragment : Fragment() {
     var firestore: FirebaseFirestore ?= null
+    var firebaseAuth: FirebaseAuth ?= null
+
     var userId: String ?= null //공통으로 쓰기 위해
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_home, container, false)
         firestore = FirebaseFirestore.getInstance() // 초기화
+        firebaseAuth = FirebaseAuth.getInstance()
         userId = FirebaseAuth.getInstance().currentUser?.uid
 
         view.findViewById<RecyclerView>(R.id.homeFragRecyclerview).adapter = homeFragmentRecyclerViewAdapter()
@@ -40,11 +43,15 @@ class homeFragment : Fragment() {
                 contentDTOs.clear()
                 contentUserIdList.clear()
 
-                for(s in snapshot!!.documents) {
-                    var item = s.toObject(ContentDTO::class.java)
-                    contentDTOs.add(item!!)
-                    contentUserIdList.add(s.id!!)
+                // logOut시 오류를 막기 위해
+                if(firebaseAuth?.currentUser != null){
+                    for(s in snapshot!!.documents) {
+                        var item = s.toObject(ContentDTO::class.java)
+                        contentDTOs.add(item!!)
+                        contentUserIdList.add(s.id!!)
+                    }
                 }
+
                 notifyDataSetChanged() // 값이 새로고침 되도록
             }
         }

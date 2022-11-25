@@ -27,9 +27,8 @@ class personAddFragment : Fragment() {
     private lateinit var fireStore: FirebaseFirestore
 
     private var dataList = ArrayList<ListData>()
-
     private lateinit var userFriend : ArrayList<String>
-    // adapter에게 전달하기 위해
+
     private lateinit var friendId : String
     private lateinit var friendName : String
     private lateinit var friendBtn : String
@@ -52,15 +51,6 @@ class personAddFragment : Fragment() {
         userFriend = ArrayList()
 
         val friend = fireStore.collection("Users").document(userEmail).collection("Following")
-//        friend.get().addOnSuccessListener { result ->
-//            for (document in result) {
-//                Log.w(ContentValues.TAG, "${document.id} => ${document.data}")
-//                userFriend.add(document.id)
-//            }
-//        }.addOnFailureListener{
-//            Log.w(ContentValues.TAG, "Error getting documents.")
-//        }
-
         val adapter = PersonAddAdapter()
         adapter.setUser(userEmail)
         val recyclerView = view.findViewById<RecyclerView>(R.id.personAddRecyclerView)
@@ -68,21 +58,6 @@ class personAddFragment : Fragment() {
 
         recyclerView.layoutManager = linearLayoutManager
         recyclerView.adapter = adapter
-
-        // signOut 용도로 선언
-        val option = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
-        val googleSignInClient = GoogleSignIn.getClient(view.context, option)
-
-        // 임시 signOut버튼 => 나중에 프로필 화면으로 옮길거임
-        val button = view.findViewById<Button>(R.id.button33)
-        button.setOnClickListener {
-            //fragment라서 activity intent와는 다른 방식
-            val intent = Intent(activity, SignInActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
-            googleSignInClient.signOut()
-            FirebaseAuth.getInstance().signOut()
-        }
 
         //검색창
         val personAddSearchView = view.findViewById<SearchView>(R.id.personAddSearchView)

@@ -119,7 +119,7 @@ class PersonAddAdapter : RecyclerView.Adapter<PersonAddAdapter.ViewHolder>() {
         }
 
         fun bind(list : ListData) {
-            userId.text = list.id
+            userId.text = "@" + list.id
             userName.text = list.name
             if(list.friendBtn != "friend") {
                 followBtn.text = "팔로우"

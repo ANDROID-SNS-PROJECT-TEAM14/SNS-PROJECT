@@ -1,14 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".navi.myprofileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/myProfileTopicBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="-16dp"
+        android:background="#E5EFFE"
+        app:layout_constraintBottom_toBottomOf="@+id/myProfileIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/myProfileTopicText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/myProfile"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/myProfileIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="-4dp"
+        android:layout_marginBottom="-4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/myProfileTopicText"
+        app:layout_constraintStart_toEndOf="@+id/myProfileTopicText"
+        app:layout_constraintTop_toTopOf="@+id/myProfileTopicText"
+        app:srcCompat="@drawable/ic_my_profile" />
+
+    <ImageView
+        android:id="@+id/myProfileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/com_facebook_profile_picture_blank_square"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileTopicBackground" />
+
+    <TextView
+        android:id="@+id/myProfileUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="userName"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/myProfileImage"
+        app:layout_constraintStart_toStartOf="@+id/myProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileImage" />
+
+    <TextView
+        android:id="@+id/myProfileUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="userId"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/myProfileUserName"
+        app:layout_constraintStart_toStartOf="@+id/myProfileUserName"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileUserName" />
+
+    <TextView
+        android:id="@+id/myProfileFollwerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/Follower"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/myProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileUserId" />
+
+    <TextView
+        android:id="@+id/myProfileFollowingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/Following"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/myProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileUserId" />
+
+    <TextView
+        android:id="@+id/myProfileFollwer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/myProfileFollwerText"
+        app:layout_constraintStart_toStartOf="@+id/myProfileFollwerText"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileFollwerText" />
+
+    <TextView
+        android:id="@+id/myProfileFollowing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/myProfileFollowingText"
+        app:layout_constraintStart_toStartOf="@+id/myProfileFollowingText"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileFollowingText" />
+
+    <Button
+        android:id="@+id/myProfileLogOutBtn"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="60dp"
+        android:background="#E5EFFE"
+        android:text="@string/logOut"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myProfileFollowing" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
