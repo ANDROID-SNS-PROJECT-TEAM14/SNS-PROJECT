@@ -229,7 +229,7 @@ class SignInActivity : AppCompatActivity(){
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
                     Log.w("로그인 성공", logMessage)
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, NaviActivity::class.java)
                     intent.putExtra("userType", "emailLogin")
                     intent.putExtra("userEmail", userEmail)
                     startActivity(intent)
@@ -278,8 +278,8 @@ class SignInActivity : AppCompatActivity(){
                                             if (document.id == account.email.toString()) {
                                                 Log.w("MainActivity 이동 : ", "성공")
                                                 flag = true
-                                                // 이미 계정아이디를 생성한 유저라면 바로 MainActivity로 이동
-                                                val intent1 = Intent(this, MainActivity::class.java)
+                                                // 이미 계정아이디를 생성한 유저라면 바로 NaviActivity로 이동
+                                                val intent1 = Intent(this, NaviActivity::class.java)
                                                 intent1.putExtra("userType", "googleLogin")
                                                 intent1.putExtra("userEmail", account.email.toString())
                                                 startActivity(intent1)
@@ -359,13 +359,11 @@ class SignInActivity : AppCompatActivity(){
         super.onStart()
         emailEditText.text = null
         passwordEditText.text = null
-        /*
-        auth = Firebase.auth
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            updateUI(currentUser)
+        if(auth.currentUser?.displayName != null || auth.currentUser?.email != null){
+            val intent = Intent(this, NaviActivity::class.java)
+            startActivity(intent)
+            finish()
         }
-        */
     }
 }
 

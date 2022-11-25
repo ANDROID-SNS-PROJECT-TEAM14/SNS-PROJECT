@@ -19,4 +19,5 @@
     <string name="myprofile">profile</string>
     <string name="upload_btn">UPLOAD</string>
     <string name="decription_hint">Image description</string>
+    <string name="addFriend">친구 추가</string>
 </resources>

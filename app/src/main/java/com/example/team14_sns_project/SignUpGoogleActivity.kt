@@ -47,7 +47,7 @@ class SignUpGoogleActivity : AppCompatActivity() {
                     .addOnCompleteListener{ task ->
                         if(task.isSuccessful){
                             Log.w("구글 유저 데이터베이스 삽입 : ", "성공")
-                            val intent = Intent(this, MainActivity::class.java)
+                            val intent = Intent(this, NaviActivity::class.java)
                             intent.putExtra("userType", "googleLogin")
                             intent.putExtra("userEmail", userEmail)
                             startActivity(intent)

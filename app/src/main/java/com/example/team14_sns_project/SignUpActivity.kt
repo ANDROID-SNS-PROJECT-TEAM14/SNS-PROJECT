@@ -1,6 +1,7 @@
 package com.example.team14_sns_project
 
 import android.R
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -237,6 +238,8 @@ class SignUpActivity : AppCompatActivity() {
                             }.addOnFailureListener {
                                 Log.w("유저 데이터베이스 삽입 : ", "실패")
                             }
+                        intent = Intent(this, SignInActivity::class.java)
+                        startActivity(intent)
                         finish()
                     }
                     else{

@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
                 userName = it["name"].toString()
                 userId = it["id"].toString()
                 // user 정보 보여주기 위한 임시 textView들
+                binding.textView.text = userType
+                binding.textView2.text = userEmail
                 binding.textView3.text = userName
                 binding.textView4.text = userId
             }
@@ -50,18 +52,23 @@ class MainActivity : AppCompatActivity() {
                 Log.w(ContentValues.TAG, "Error getting documents.", exception)
             }
 
-        // user 정보 보여주기 위한 임시 textView들
-        binding.textView.text = userType
-        binding.textView2.text = userEmail
+
+
 
 
         // signOut 용도로 선언
+        val option = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+        val googleSignInClient = GoogleSignIn.getClient(this, option)
+
+        /*
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             // default_client_id가 인식되지 않아 리소스를 그대로 복사
             .requestIdToken("16439493728-mbqgnvttk0hrgm23gq1obacsjs9fkr25.apps.googleusercontent.com")
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
+
+         */
 
 
         binding.mainSignOutBtn.setOnClickListener {
