@@ -24,4 +24,6 @@
     <string name="Follower">팔로워</string>
     <string name="Following">팔로잉</string>
     <string name="logOut">로그아웃</string>
+    <string name="commentSendBtn">게시</string>
+
 </resources>
