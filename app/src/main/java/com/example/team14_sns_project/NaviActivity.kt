@@ -74,9 +74,6 @@ class NaviActivity : AppCompatActivity() {
                 R.id.homeFrag -> {
                     setFragment(homeFragment())
                 }
-                R.id.directMessage -> {
-                    setFragment(dmFragment())
-                }
                 R.id.postFrag-> {
                     val intent = Intent(this, AddPostActivity::class.java)
                     // 필요없으면 삭제

@@ -60,7 +60,19 @@ class myprofileFragment : Fragment() {
 
         // 팔로워 클릭
         userFollowerEditText.setOnClickListener {
-            val intent = Intent(getActivity(), FollowerActivity::class.java)
+            val intent = Intent(activity, UserFollowerActivity::class.java)
+            intent.putExtra("userEmail", userEmail)
+            intent.putExtra("userId", userId)
+            intent.putExtra("userName", userName)
+            startActivity(intent)
+        }
+
+        // 팔로잉 클릭
+        userFollowingEditText.setOnClickListener {
+            val intent = Intent(activity, UserFollowingActivity::class.java)
+            intent.putExtra("userEmail", userEmail)
+            intent.putExtra("userId", userId)
+            intent.putExtra("userName", userName)
             startActivity(intent)
         }
 

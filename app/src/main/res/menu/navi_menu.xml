@@ -6,11 +6,6 @@
         android:icon="@drawable/ic_home"
         />
     <item
-        android:id="@+id/directMessage"
-        android:title="@string/directMessage"
-        android:icon="@drawable/ic_direct_message"
-        android:enabled="true"/>
-    <item
         android:id="@+id/postFrag"
         android:title="@string/post"
         android:icon="@drawable/ic_post"
