@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.project_friend.FollowerActivity
-import com.example.project_friend.FollowingHome
+import com.example.team14_sns_project.FollowerActivity
+import com.example.team14_sns_project.FollowingHome
 import com.example.team14_sns_project.databinding.ActivityFollowerBinding
 import com.example.team14_sns_project.databinding.ActivityMainBinding
 

@@ -1,9 +1,10 @@
-package com.example.project_friend
+package com.example.team14_sns_project
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide.init
+import com.example.team14_sns_project.Friend
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database

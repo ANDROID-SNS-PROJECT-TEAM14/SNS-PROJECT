@@ -1,4 +1,4 @@
-package com.example.project_friend
+package com.example.team14_sns_project
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +11,8 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.team14_sns_project.FollowerHome
+import com.example.team14_sns_project.FollowerViewModel
 import com.example.team14_sns_project.MainActivity
 import com.example.team14_sns_project.R
 import com.example.team14_sns_project.databinding.ActivityFollowerBinding

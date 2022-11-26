@@ -1,6 +1,7 @@
-package com.example.project_friend
+package com.example.team14_sns_project
 
 import androidx.lifecycle.MutableLiveData
+import com.example.team14_sns_project.Friend
 import com.google.firebase.database.*
 import com.google.firebase.firestore.auth.User
 

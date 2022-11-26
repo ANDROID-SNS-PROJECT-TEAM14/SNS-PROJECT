@@ -1,4 +1,4 @@
-package com.example.project_friend
+package com.example.team14_sns_project
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.team14_sns_project.FollowingViewModel
 import com.example.team14_sns_project.R
 import com.example.team14_sns_project.databinding.FragmentFollowingBinding
 

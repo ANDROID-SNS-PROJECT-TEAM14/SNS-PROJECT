@@ -1,4 +1,4 @@
-package com.example.project_friend
+package com.example.team14_sns_project
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.team14_sns_project.Friend
 import com.example.team14_sns_project.R
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue

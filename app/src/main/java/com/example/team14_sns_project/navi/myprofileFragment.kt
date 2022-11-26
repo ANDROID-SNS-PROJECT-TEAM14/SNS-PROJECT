@@ -10,9 +10,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import com.example.team14_sns_project.NaviActivity
-import com.example.team14_sns_project.R
-import com.example.team14_sns_project.SignInActivity
+import androidx.fragment.app.FragmentManager
+import com.example.team14_sns_project.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -58,6 +57,12 @@ class myprofileFragment : Fragment() {
         // 유저의 팔로우/팔로잉 FireStoreUrl
         val userFollowerCollection = fireStore.collection("Users").document(userEmail).collection("Follower")
         val userFollowingCollection = fireStore.collection("Users").document(userEmail).collection("Following")
+
+        // 팔로워 클릭
+        userFollowerEditText.setOnClickListener {
+            val intent = Intent(getActivity(), FollowerActivity::class.java)
+            startActivity(intent)
+        }
 
         userFollowerCollection.get()
             .addOnSuccessListener { result ->
