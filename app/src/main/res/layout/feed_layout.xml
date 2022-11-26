@@ -9,7 +9,7 @@
         android:layout_height="50dp">
         <ImageView
             android:id="@+id/profileImage"
-            android:src="@mipmap/ic_launcher_round"
+            android:src="@drawable/com_facebook_profile_picture_blank_square"
             android:layout_margin="8dp"
             android:layout_width="32dp"
             android:layout_height="32dp" />

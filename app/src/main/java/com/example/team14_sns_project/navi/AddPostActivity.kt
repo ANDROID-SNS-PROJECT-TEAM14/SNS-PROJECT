@@ -16,14 +16,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class  AddPostActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityAddPostBinding
+    private lateinit var binding: ActivityAddPostBinding
+    private lateinit var userEmail: String
+    private lateinit var userId: String
+    private lateinit var userName: String
+
 
     var IMAGE_FROM_ALBUM = 0 // request code
-    var storage: FirebaseStorage ?= null
-    var photoUri: Uri ?= null
+    var storage: FirebaseStorage? = null
+    var photoUri: Uri? = null
 
-    var auth: FirebaseAuth?= null // 유저의 정보를 가져올 수 있도록  firebase auth 추가
-    var firestore: FirebaseFirestore ?= null // database를 사용할 수 있도록
+    var auth: FirebaseAuth? = null // 유저의 정보를 가져올 수 있도록  firebase auth 추가
+    var firestore: FirebaseFirestore? = null // database를 사용할 수 있도록
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +40,9 @@ class  AddPostActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
-
+        userEmail = intent.getStringExtra("userEmail").toString()
+        userId = intent.getStringExtra("userId").toString()
+        userName = intent.getStringExtra("userName").toString()
 
 
         // 이 액티비티가 시작하자마자 앨범이 열리도록
@@ -55,7 +61,7 @@ class  AddPostActivity : AppCompatActivity() {
     // 선택한 이미지를 받는 부분
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == IMAGE_FROM_ALBUM) {
+        if (requestCode == IMAGE_FROM_ALBUM) {
             if (resultCode == Activity.RESULT_OK) { // 사진을 선택 했을때
                 photoUri = data?.data // 이미지의 경로가 이쪽으로 넘어오도록
                 binding.addphotoImage.setImageURI(photoUri) // ImageView에 선택한 이미지를 표시해주도록
@@ -71,36 +77,27 @@ class  AddPostActivity : AppCompatActivity() {
         var imageFileName = "IMAGE " + timesnap + "_.png"
 
         var userCollection = firestore?.collection("Users")
-        var useruploadCollection = firestore?.collection("userInfo")
 
         // 이미지 업로드
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
         storageRef?.putFile(photoUri!!)?.addOnCompleteListener {
-            if(it.isSuccessful) { // 업로드 성공했을때
+            if (it.isSuccessful) { // 업로드 성공했을때
                 storageRef.downloadUrl.addOnSuccessListener { uri -> // 이미지 업로드 완료했으면 이미지 주소를 받아옴
                     var contentDTO = ContentDTO() // 이미지 주소를 받아오자마자 data model을 만들어줌
 
-                    userCollection?.get()?.addOnSuccessListener { result ->
-                        for (document in result) {
-                            if(document.data["email"] == auth?.currentUser?.email) {
-                                contentDTO.userName = document.data["name"] as String
-                            }
-                        }
-                    }
+                    contentDTO.imageURL = uri.toString()
+                    contentDTO.userId = auth?.currentUser?.uid
+                    contentDTO.name = userName
+                    contentDTO.email = userEmail
+                    contentDTO.explain = binding.editDescription.text.toString()
+                    contentDTO.timestamp = System.currentTimeMillis()
+                    firestore?.collection("userInfo")?.document()?.set(contentDTO)
 
 
-                    contentDTO.imageURL = uri.toString() // downloadUrl을 넣어줌
-                    contentDTO.userId = auth?.currentUser?.uid // 현재 유저의 id
-                    /* contentDTO.userImageId = auth?.currentUser?.email // 컨텐츠 올린 유저의 프로필 이미지 */
-                    contentDTO.explain = binding.editDescription.text.toString() // desription
-                    contentDTO.timestamp = System.currentTimeMillis() // 시간
-
-                    useruploadCollection?.document()?.set(contentDTO)
                     setResult(Activity.RESULT_OK) // 정상적으로 닫혔다는 frag 값을 넘겨주기 위해서
                     finish()
                 }
             }
         }
     }
-
 }

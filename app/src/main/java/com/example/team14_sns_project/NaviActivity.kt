@@ -23,6 +23,7 @@ class NaviActivity : AppCompatActivity() {
     lateinit var userId : String
     lateinit var userName : String
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNaviBinding.inflate(layoutInflater)
