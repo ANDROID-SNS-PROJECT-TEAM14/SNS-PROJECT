@@ -28,7 +28,6 @@ class NaviActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNaviBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ActivityNaviBinding.inflate(layoutInflater).navigation.selectedItemId = R.id.homeFrag
 
         auth = FirebaseAuth.getInstance()
         fireStore = Firebase.firestore
@@ -55,6 +54,8 @@ class NaviActivity : AppCompatActivity() {
         else {
             userEmail = auth.currentUser?.email.toString()
         }
+
+        ActivityNaviBinding.inflate(layoutInflater).navigation.selectedItemId = R.id.homeFrag
 
         if(auth.currentUser?.displayName != null || auth.currentUser?.email != null) {
             setFragment(homeFragment())

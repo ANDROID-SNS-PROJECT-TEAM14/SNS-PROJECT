@@ -31,9 +31,10 @@ class homeFragment : Fragment() {
         firestore = FirebaseFirestore.getInstance() // 초기화
         auth = FirebaseAuth.getInstance()
         userId = auth?.currentUser?.uid
-        userEmail = NaviActivity().userEmail
 
-
+        // NaviActivity에 저장되어 있는 user 정보 가져옴
+        val parent = activity as NaviActivity
+        userEmail = parent.userEmail
 
         view.findViewById<RecyclerView>(R.id.homeFragRecyclerview).adapter = homeFragmentRecyclerViewAdapter()
         view.findViewById<RecyclerView>(R.id.homeFragRecyclerview).layoutManager = LinearLayoutManager(activity) // 화면에 세로로 배치
