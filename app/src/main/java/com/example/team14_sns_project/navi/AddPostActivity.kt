@@ -22,12 +22,25 @@ class  AddPostActivity : AppCompatActivity() {
     private lateinit var userName: String
 
 
+    private lateinit var userEmail: String
+    private lateinit var userId: String
+    private lateinit var userName: String
+
+
     var IMAGE_FROM_ALBUM = 0 // request code
+<<<<<<< HEAD
     var storage: FirebaseStorage? = null
     var photoUri: Uri? = null
 
     var auth: FirebaseAuth? = null // 유저의 정보를 가져올 수 있도록  firebase auth 추가
     var firestore: FirebaseFirestore? = null // database를 사용할 수 있도록
+=======
+    var photoUri: Uri ?= null
+
+    var storage: FirebaseStorage ?= null
+    var auth: FirebaseAuth?= null // 유저의 정보를 가져올 수 있도록  firebase auth 추가
+    var firestore: FirebaseFirestore ?= null // database를 사용할 수 있도록
+>>>>>>> yhgg
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,8 +96,10 @@ class  AddPostActivity : AppCompatActivity() {
         storageRef?.putFile(photoUri!!)?.addOnCompleteListener {
             if (it.isSuccessful) { // 업로드 성공했을때
                 storageRef.downloadUrl.addOnSuccessListener { uri -> // 이미지 업로드 완료했으면 이미지 주소를 받아옴
+
                     var contentDTO = ContentDTO() // 이미지 주소를 받아오자마자 data model을 만들어줌
 
+<<<<<<< HEAD
                     contentDTO.imageURL = uri.toString()
                     contentDTO.userId = auth?.currentUser?.uid
                     contentDTO.name = userName
@@ -94,6 +109,18 @@ class  AddPostActivity : AppCompatActivity() {
                     firestore?.collection("userInfo")?.document()?.set(contentDTO)
 
 
+=======
+
+                    contentDTO.explain = binding.editDescription.text.toString() // desription
+                    contentDTO.imageURL = uri.toString() // downloadUrl을 넣어줌
+                    contentDTO.userId = auth?.currentUser?.uid // 현재 유저의 id
+                    contentDTO.userImageId = auth?.currentUser?.email // 컨텐츠 올린 유저의 프로필 이미지 */
+                    contentDTO.userName = userName
+                    contentDTO.userEmail
+                    contentDTO.timestamp = System.currentTimeMillis() // 시간
+
+                    firestore?.collection("userInfo")?.document()?.set(contentDTO)
+>>>>>>> yhgg
                     setResult(Activity.RESULT_OK) // 정상적으로 닫혔다는 frag 값을 넘겨주기 위해서
                     finish()
                 }

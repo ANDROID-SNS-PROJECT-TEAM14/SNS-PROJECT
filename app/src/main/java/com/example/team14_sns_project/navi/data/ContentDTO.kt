@@ -1,4 +1,5 @@
 package com.example.team14_sns_project.navi.data
+<<<<<<< HEAD
 /*
 설명을 관리하는 explain
 이미지 주소를 관리하는 imageURL
@@ -19,17 +20,27 @@ data class ContentDTO(  var explain: String ?= null,
                         var userImageId: String ?= null,
                         var favoriteCount: Int = 0,
                         var favoritesUserList: MutableMap<String, Boolean> = HashMap()) {
+=======
 
+data class ContentDTO(var explain: String ?= null,
+                 var imageURL: String ?= null,
+                 //var id: String ?= null,
+                 var userId: String ?= null,
+                 var userImageId: String ?= null,
+                 var userName: String ?= null,
+                 var userEmail: String ?= null,
+                 var timestamp: Long ?= null,
+                 var favoriteCount: Int = 0,
+                 var favoritesUserList: MutableMap<String, Boolean> = HashMap()) {
+>>>>>>> yhgg
 
-    /*
-    // 댓글 관리해주는 Comment class
-    userId: 어느 유저가 올렸는지 (Uid)
-    userName: 유저의 이메일을 관리해주는 변수
-    comment: 댓글을 관리해주는 변수
-    timestamp: 커멘트를 올린 시간을 관리해주는 변수
-    * */
     data class Comment(var userId: String ?= null,
+<<<<<<< HEAD
                        var name: String ?= null,
+=======
+                       var userName: String ?= null,
+                       var userEmail: String ?= null,
+>>>>>>> yhgg
                        var comment: String ?= null,
                        var timestamp: Long ?= null)
 }
