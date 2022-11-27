@@ -58,7 +58,6 @@ class homeFragment : Fragment() {
         contentDTOs = ArrayList()
         contentDTOsList = ArrayList()
         contentUserIdList = ArrayList() // UserId 를 담을 List
-
         return view
     }
 

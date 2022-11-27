@@ -42,12 +42,14 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
             favoriteEvent(position)
         }
 
+        Log.w("@@@@@@@", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         // 좋아요 수와 좋아요 색이 채워지거나 비워지는 이벤트
         if(contentDTOs!![position].favoritesUserList.containsKey(myId)) {// 나의 userId가 포함되어 있을 경우
             viewholder.findViewById<ImageView>(R.id.heart_line).setImageResource(R.drawable.ic_favorite) // 좋아요 클릭한 부분 - 채워진 하트
-
+            Log.w("@@@@@@@", "#############################")
         } else { // 포함되어 있지 않을 경우
             viewholder.findViewById<ImageView>(R.id.heart_line).setImageResource(R.drawable.ic_favorite_border) // 아직 좋아요 클릭하지 않은 부분 - 비워진 하트
+            Log.w("@@@@@@@", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         }
     }
 
