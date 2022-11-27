@@ -22,7 +22,6 @@ class  AddPostActivity : AppCompatActivity() {
     private lateinit var userId: String
     private lateinit var userName: String
 
-
     var IMAGE_FROM_ALBUM = 0 // request code
     var photoUri: Uri ?= null
 
@@ -35,7 +34,6 @@ class  AddPostActivity : AppCompatActivity() {
         binding = ActivityAddPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         //초기화
         storage = FirebaseStorage.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -45,19 +43,11 @@ class  AddPostActivity : AppCompatActivity() {
         userId = intent.getStringExtra("userId").toString()
         userName = intent.getStringExtra("userName").toString()
 
-
         // 이 액티비티가 시작하자마자 앨범이 열리도록
         var photoPickIntent = Intent(Intent.ACTION_PICK)
         photoPickIntent.type = "image/*"
         startActivityForResult(photoPickIntent, IMAGE_FROM_ALBUM)
 
-
-
-/*
-        binding.addphotoImage.setOnClickListener { // 이미지 선택하는 경우
-            startActivityForResult(photoPickIntent, IMAGE_FROM_ALBUM)
-        }
-*/
         // 사진은 무조건 선택해야함
         binding.uploadBtn.setOnClickListener { // uploadBtn에 이벤트 추가
             contentUpload()
@@ -82,7 +72,6 @@ class  AddPostActivity : AppCompatActivity() {
         var timesnap = SimpleDateFormat("yyyyMMdd_hhmmss").format(Date())
         var imageFileName = "IMAGE " + timesnap + "_.png"
 
-
         // 이미지 업로드
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
         storageRef?.putFile(photoUri!!)?.addOnCompleteListener {
@@ -102,8 +91,8 @@ class  AddPostActivity : AppCompatActivity() {
                     firestore?.collection("userInfo")?.document()?.set(contentDTO)
 
                     setResult(Activity.RESULT_OK) // 정상적으로 닫혔다는 frag 값을 넘겨주기 위해서
-                    finish()
 
+                    finish()
                 }
             }
        // }

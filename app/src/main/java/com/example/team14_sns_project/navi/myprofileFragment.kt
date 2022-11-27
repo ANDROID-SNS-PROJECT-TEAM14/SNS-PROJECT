@@ -80,13 +80,7 @@ class myprofileFragment : Fragment() {
             .addOnSuccessListener { result ->
                 Log.w("userFollowerCollection.get()", "userFollowerCollection 성공")
                 // 아직 팔로워가 없다면 0으로 설정
-                if(result.size() == null) {
-                    userFollowerEditText.text = "0"
-                }
-                // 팔로워가 있다면 그 수 만큼 설정
-                else {
-                    userFollowerEditText.text = result.size().toString()
-                }
+                userFollowerEditText.text = result.size().toString()
             }.addOnFailureListener{
                 Log.w("userFollowerCollection.get()", "userFollowerCollection 실패")
             }
