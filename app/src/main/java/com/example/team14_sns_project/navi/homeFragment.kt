@@ -83,11 +83,6 @@ class homeFragment : Fragment() {
                                         contentDTOs.add(item)
                                         contentUserIdList.add(snap.id)
                                     }
-                                    Log.w("contentDTOs", contentDTOs.toString())
-                                    Log.w("contentUserIdList", contentUserIdList.toString())
-                                    Log.w("document", document.id)
-                                    Log.w("item", item.userEmail.toString())
-                                    Log.w("userEmail", userEmail)
                                     adapter.updateList(contentDTOs, contentUserIdList)
                                 }
                             }
@@ -98,55 +93,6 @@ class homeFragment : Fragment() {
                 }
             }
         }
-
-//        feedCol.orderBy("timestamp").addSnapshotListener { snapshot, error ->
-//            if (auth?.currentUser != null) {
-//                followingCol.get().addOnSuccessListener { result ->
-//                    Log.w("firestore?.collection(\"userInfo\")", "성공")
-//                    // 배열 초기화
-//                    contentDTOs.clear()
-//                    contentUserIdList.clear()
-//                    // 팔로잉이 하나도 없다면
-//                    if(result.size() == 0) {
-//                        for (snap in snapshot!!.documents) {
-//                            // 아이템 매핑
-//                            var item = snap.toObject(ContentDTO::class.java)
-//                            if (item != null) {
-//                                if(userEmail == item.userEmail.toString()){
-//                                    contentDTOs.add(item)
-//                                    contentUserIdList.add(snap.id)
-//                                    adapter.updateList(contentDTOs, contentUserIdList)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    // 팔로잉이 있다면
-//                    else{
-//                        for(document in result) {
-//                            Log.w("document", document.id)
-//                            for (snap in snapshot!!.documents) {
-//                                Log.w("snap", snap.toString())
-//                                var item = snap.toObject(ContentDTO::class.java)
-//                                if (item != null) {
-//                                    if(document.id == item.userEmail.toString() || userEmail == item.userEmail.toString()){
-//                                        contentDTOs.add(item)
-//                                        contentUserIdList.add(snap.id)
-//                                        Log.w("contentDTOs", contentDTOs.toString())
-//                                        Log.w("contentUserIdList", contentUserIdList.toString())
-//                                        Log.w("document", document.id)
-//                                        Log.w("item", item.userEmail.toString())
-//                                        Log.w("userEmail", userEmail)
-//                                        adapter.updateList(contentDTOs, contentUserIdList)
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }.addOnFailureListener {
-//                    Log.w("firestore?.collection(\"userInfo\")", "실패")
-//                }
-//            }
-//        }
     }
 }
 
