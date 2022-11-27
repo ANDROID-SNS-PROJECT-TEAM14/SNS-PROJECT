@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,53 +10,54 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
-            android:src="@drawable/hsu_topic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:src="@drawable/hsu_topic" />
     </androidx.appcompat.widget.Toolbar>
-    
-    <LinearLayout
-        android:id="@+id/toolbar_division"
-        android:background="@color/white"
-        android:layout_below="@+id/toolbar"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editText"
-        android:layout_below="@+id/toolbar_division"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
+    <EditText
 
-            android:id="@+id/editDescription"
-            android:hint="@string/decription_hint"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        android:id="@+id/editDescription"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:hint=" 문구 입력 ..."
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ImageView
         android:id="@+id/addphotoImage"
-        android:layout_width="390dp"
-        android:layout_height="390dp"
-        android:layout_below="@+id/editText"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editDescription" />
 
     <Button
         android:id="@+id/uploadBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/addphotoImage"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/upload_btn" />
+        android:layout_marginTop="32dp"
+        android:background="#023F96"
+        android:text="@string/upload_btn"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="@+id/addphotoImage"
+        app:layout_constraintStart_toStartOf="@+id/addphotoImage"
+        app:layout_constraintTop_toBottomOf="@+id/addphotoImage" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

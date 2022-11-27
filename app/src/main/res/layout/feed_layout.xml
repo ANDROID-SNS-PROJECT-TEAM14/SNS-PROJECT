@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="520dp"
     android:background="#FFFFFF"
@@ -22,7 +24,8 @@
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="username" />
+            android:text="username"
+            android:textColor="#000000" />
     </LinearLayout>
 
     <ImageView
@@ -32,7 +35,7 @@
         android:background="#FFFFFF"
         android:scaleType="fitXY" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="6dp"
@@ -43,21 +46,24 @@
             android:id="@+id/heart_line"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_favorite_border" />
+            android:src="@drawable/ic_favorite_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/comment"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_comment" />
-    </LinearLayout>
+        <TextView
+            android:id="@+id/like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="좋아요"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/heart_line"
+            app:layout_constraintStart_toEndOf="@+id/heart_line"
+            app:layout_constraintTop_toTopOf="@+id/heart_line" />
 
-    <TextView
-        android:id="@+id/like_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="좋아요" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/description"
@@ -67,6 +73,7 @@
         android:layout_marginRight="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Explain Content" />
+        android:text="Explain Content"
+        android:textColor="#000000" />
 
 </LinearLayout>
