@@ -23,36 +23,22 @@ import com.google.firebase.firestore.FirebaseFirestore
 class homeFragment : Fragment() {
     var auth: FirebaseAuth ?= null
     var firestore: FirebaseFirestore ?= null
-<<<<<<< HEAD
-    var auth: FirebaseAuth ?= null
-    var userId: String ?= null // Uid
-    var userEmail: String ?= null
-=======
     var userId: String ?= null // Uid
 
     private lateinit var userEmail : String
     private lateinit var userName : String
 
->>>>>>> yhgg
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_home, container, false)
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance() // 초기화
-<<<<<<< HEAD
-        auth = FirebaseAuth.getInstance()
-        userId = auth?.currentUser?.uid
-=======
->>>>>>> yhgg
 
         userId = auth?.currentUser?.uid
+
         // NaviActivity에 저장되어 있는 user 정보 가져옴
         val parent = activity as NaviActivity
         userEmail = parent.userEmail
-<<<<<<< HEAD
-=======
         userName = parent.userName
->>>>>>> yhgg
 
         view.findViewById<RecyclerView>(R.id.homeFragRecyclerview).adapter = homeFragmentRecyclerViewAdapter()
         view.findViewById<RecyclerView>(R.id.homeFragRecyclerview).layoutManager = LinearLayoutManager(activity) // 화면에 세로로 배치
@@ -61,17 +47,9 @@ class homeFragment : Fragment() {
 
     inner class homeFragmentRecyclerViewAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
-<<<<<<< HEAD
-        var contentUserIdList: ArrayList<String> = arrayListOf() // UserId를 담을 List
-
-        var userCollection = firestore?.collection("Users")
-
-        // 유저의 팔로우/팔로잉 FireStoreUrl
-        val userFollowingCollection = userEmail?.let { firestore?.collection("Users")?.document(it)?.collection("Following") }
-=======
         var contentUserIdList: ArrayList<String> = arrayListOf() // UserId 를 담을 List
         var followingList: ArrayList<String> = arrayListOf() // 현재 유저(email)가 팔로잉 하고있는 유저 리스트(email)
->>>>>>> yhgg
+
 
         init { // DB에 접근해서 데이터를 받아올 수 있는 query
             // 시간순으로 받아올 수 있도록
@@ -80,16 +58,6 @@ class homeFragment : Fragment() {
                 contentDTOs.clear()
                 contentUserIdList.clear()
 
-<<<<<<< HEAD
-                for(snap in snapshot!!.documents) {
-                    var item = snap.toObject(ContentDTO::class.java)
-                    userFollowingCollection?.get()?.addOnSuccessListener { result ->
-                        for(document in result) {
-                            if (item != null) {
-                                if(document.id == item.email){
-                                    contentDTOs.add(item!!)
-                                    contentUserIdList.add(snap.id!!)
-=======
                 // logOut시 오류를 막기 위해
                 if(auth?.currentUser != null){
                     // 현재 유저의 Following 안에 있는 documents를 모두 가져옴
@@ -110,7 +78,6 @@ class homeFragment : Fragment() {
                                 if(item.userEmail == i) {
                                     contentDTOs.add(item!!)
                                     contentUserIdList.add(doc.id!!)
->>>>>>> yhgg
                                 }
                             }
                         }
@@ -134,15 +101,10 @@ class homeFragment : Fragment() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
             var viewholder = (holder as CustomViewHolder).itemView
-<<<<<<< HEAD
-            viewholder.findViewById<TextView>(R.id.userId).text = contentDTOs!![position].name // 유저이름
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageURL).into(viewholder.findViewById(R.id.uploadImage)) // user upload Image
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageURL).into(viewholder.findViewById(R.id.profileImage)) // user profile Image
-=======
+
             viewholder.findViewById<TextView>(R.id.userName).text = contentDTOs!![position].userName // userId
             Glide.with(holder.itemView.context).load(contentDTOs!![position].imageURL).into(viewholder.findViewById<ImageView>(R.id.uploadImage)) // user upload Image
-            // Glide.with(holder.itemView.context).load(contentDTOs!![position].userImageId).into(viewholder.findViewById<ImageView>(R.id.profileImage)) // user profile Image
->>>>>>> yhgg
+            //Glide.with(holder.itemView.context).load(contentDTOs!![position].userImageId).into(viewholder.findViewById<ImageView>(R.id.profileImage)) // user profile Image
             viewholder.findViewById<TextView>(R.id.description).text = contentDTOs!![position].explain// description
             viewholder.findViewById<TextView>(R.id.like_count).text = "좋아요 " + contentDTOs!![position].favoriteCount + "개"// favorite Count
 
@@ -166,7 +128,6 @@ class homeFragment : Fragment() {
                 intent.putExtra("contentUserId", contentUserIdList[position]) // 내가 선택한 userId 값이 넘어감
                 startActivity(intent)
             }
-
         }
 
 
@@ -175,19 +136,10 @@ class homeFragment : Fragment() {
         fun favoriteEvent(position: Int) {
             // 내가 선택한 컨텐츠의 userId  받아와서 좋아요를 누르는 이벤트
             // document안에 내가 선택한 컨텐츠 uid값을 넣어줌
-<<<<<<< HEAD
             var userInfoDocument = firestore?.collection("userInfo")?.document(contentUserIdList[position])
-=======
-            var doc = firestore?.collection("userInfo")?.document(contentUserIdList[position])
->>>>>>> yhgg
 
             firestore?.runTransaction {
-                //var userId = FirebaseAuth.getInstance().currentUser?.uid //데이터를 입력하기 위해서는 transaction을 불러와야함
-<<<<<<< HEAD
                 var contentDTO = it.get(userInfoDocument!!).toObject(ContentDTO::class.java) // transaction의 데이터를 contentDTO로 캐스팅
-=======
-                var contentDTO = transaction.get(doc!!).toObject(ContentDTO::class.java) // transaction의 데이터를 contentDTO로 캐스팅
->>>>>>> yhgg
 
                 // 좋아요 버튼이 이미 클릭 되어 있을 경우
                 if(contentDTO!!.favoritesUserList.containsKey(userId)) { // containsKey = 좋아요 버튼이 눌려 있다는 뜻
@@ -199,11 +151,7 @@ class homeFragment : Fragment() {
                     contentDTO?.favoritesUserList?.set(userId!!, true)
 
                 }
-<<<<<<< HEAD
                 it.set(userInfoDocument, contentDTO) // 서버로 돌려줌
-=======
-                transaction.set(doc, contentDTO) // 서버로 돌려줌
->>>>>>> yhgg
             }
         }
     }

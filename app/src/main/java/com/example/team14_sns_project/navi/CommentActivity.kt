@@ -48,8 +48,8 @@ class CommentActivity : AppCompatActivity() {
         // 게시 버튼
         binding.commentSendBtn.setOnClickListener {
             var comment = ContentDTO.Comment()
-            comment.userId = auth.currentUser?.uid
-            comment.name = userName
+            comment.uID = auth.currentUser?.uid
+            comment.userName = userName
             comment.comment = binding.commentEditText.text.toString()
             comment.timestamp = System.currentTimeMillis()
 
@@ -90,7 +90,7 @@ class CommentActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             // 서버에서 넘어온 데이터 mapping
             var view = holder.itemView
-            view.findViewById<TextView>(R.id.commentUserName).text = comments[position].name
+            view.findViewById<TextView>(R.id.commentUserName).text = comments[position].userName
             view.findViewById<TextView>(R.id.commentTextViewMessage).text = comments[position].comment
         }
 
