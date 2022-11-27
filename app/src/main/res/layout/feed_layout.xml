@@ -15,10 +15,10 @@
 
         <ImageView
             android:id="@+id/profileImage"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_margin="8dp"
-            android:src="@drawable/com_facebook_profile_picture_blank_square" />
+            android:src="@drawable/profile_image"/>
 
         <TextView
             android:id="@+id/userName"

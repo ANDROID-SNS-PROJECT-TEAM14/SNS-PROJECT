@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">TEAM14_SNS_PROJECT</string>
-    <string name="facebook_app_id">634476895025406</string>
-    <string name="fb_login_protocol_scheme">fb634476895025406</string>
-    <string name="facebook_client_token">f7602dc7961512b293c40858fd96315f</string>
     <string name="login_to_other_sns">다른 계정으로 로그인 하기</string>
     <string name="qusetion_no_sns">계정이 없으신가요?</string>
     <string name="signUp">회원가입</string>

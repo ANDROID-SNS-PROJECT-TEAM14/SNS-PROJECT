@@ -16,7 +16,6 @@ import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.example.team14_sns_project.databinding.ActivitySignInBinding
-import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -41,7 +40,6 @@ class SignInActivity : AppCompatActivity(){
     private lateinit var userAddressPick : String
     // google signIn
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var callbackManager: CallbackManager
 
     private var emailFlag : Boolean = false
     private var pwFlag : Boolean = false
@@ -58,7 +56,6 @@ class SignInActivity : AppCompatActivity(){
         auth = Firebase.auth
         emailEditText = binding.signInEmailEditText
         passwordEditText = binding.signInPassswordEditText
-        callbackManager = CallbackManager.Factory.create()
 
         val passwordView = binding.signInPasswordView
         val signInBtn = binding.signInBtn
