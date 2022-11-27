@@ -6,6 +6,7 @@
     
     <ImageView
         android:id="@+id/commentProfile"
+        android:src="@drawable/com_facebook_profile_picture_blank_square"
         android:layout_margin="8dp"
         android:layout_width="35dp"
         android:layout_height="35dp"/>
