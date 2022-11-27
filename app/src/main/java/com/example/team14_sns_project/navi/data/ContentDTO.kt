@@ -10,9 +10,9 @@ data class ContentDTO(  var explain: String ?= null,
                         var favoriteCount: Int = 0,
                         var favoritesUserList: MutableMap<String, Boolean> = HashMap()) {
 
-    data class Comment(var uID: String ?= null,
-                       var userName: String ?= null,
-                       var userEmail: String ?= null,
-                       var comment: String ?= null,
-                       var timestamp: Long ?= null)
+data class Comment(var uID: String ?= null,
+                   var userName: String ?= null,
+                   var userEmail: String ?= null,
+                   var comment: String ?= null,
+                   var timestamp: Long ?= null)
 }

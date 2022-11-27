@@ -1,9 +1,7 @@
 package com.example.team14_sns_project.navi
 
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +16,7 @@ import com.example.team14_sns_project.R
 import com.example.team14_sns_project.SignInActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.inappmessaging.MessagesProto.Content
 
 // 사람들 피드 나타나는 home Fragment
 class homeFragment : Fragment() {
@@ -30,10 +29,11 @@ class homeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_home, container, false)
+        // 초기화
         auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance() // 초기화
-
+        firestore = FirebaseFirestore.getInstance()
         userId = auth?.currentUser?.uid
+
 
         // NaviActivity에 저장되어 있는 user 정보 가져옴
         val parent = activity as NaviActivity
@@ -51,6 +51,28 @@ class homeFragment : Fragment() {
         var followingList: ArrayList<String> = arrayListOf() // 현재 유저(email)가 팔로잉 하고있는 유저 리스트(email)
 
 
+        // 팔로잉 하지 않은 사람의 피드까지 모두 보임
+        init {
+            firestore?.collection("userInfo")?.orderBy("timestamp")?.addSnapshotListener { snapshot, error ->
+                contentDTOs.clear()
+                contentUserIdList.clear()
+
+                if(auth?.currentUser != null) {
+
+                    for (snap in snapshot!!.documents) {
+                        var item = snap.toObject(ContentDTO::class.java)
+                        contentDTOs.add(item!!)
+                        contentUserIdList.add(snap.id)
+                    }
+                }
+                notifyDataSetChanged()
+            }
+        }
+
+
+
+/*
+//팔로잉 되어 있는 사람 피드만 보이도록 (수정 필요)
         init { // DB에 접근해서 데이터를 받아올 수 있는 query
             // 시간순으로 받아올 수 있도록
             firestore?.collection("userInfo")?.orderBy("timestamp")?.addSnapshotListener { snapshot, error ->
@@ -58,34 +80,32 @@ class homeFragment : Fragment() {
                 contentDTOs.clear()
                 contentUserIdList.clear()
 
+                firestore?.collection("Users")!!.document(userEmail).collection("Following").addSnapshotListener { snap, er ->
+                    for(dc in snap!!.documents) {
+                        followingList.add(dc.id!!)
+                    }
+                }
+
                 // logOut시 오류를 막기 위해
                 if(auth?.currentUser != null){
-                    // 현재 유저의 Following 안에 있는 documents를 모두 가져옴
-                    firestore?.collection("Users")!!.document(userEmail).collection("Following").get().addOnSuccessListener { result ->
-                        if(result.size() != null) {
-                            for(document in result) {
-                                followingList.add(document.id)
-                            }
-                        }
-                    }.addOnFailureListener{
-                        Log.w("userFollowingCollection.get()", "userFollowingCollection 실패")
-                    }
 
-                    for(doc  in snapshot!!.documents) {
+                    for(doc in snapshot!!.documents) {
                         var item = doc.toObject(ContentDTO::class.java)
                         for(i in followingList) {
-                            if (item != null) {
-                                if(item.userEmail == i) {
-                                    contentDTOs.add(item!!)
-                                    contentUserIdList.add(doc.id!!)
-                                }
+                            if(i == item?.userEmail || userEmail == item?.userEmail) {
+                                contentDTOs.add(item!!)
+                                contentUserIdList.add(doc.id!!)
                             }
                         }
                     }
                 }
                 notifyDataSetChanged() // 값이 새로고침 되도록
             }
+
+
         }
+*/
+
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             var view = LayoutInflater.from(parent.context).inflate(R.layout.feed_layout, parent, false)
@@ -102,9 +122,9 @@ class homeFragment : Fragment() {
 
             var viewholder = (holder as CustomViewHolder).itemView
 
-            viewholder.findViewById<TextView>(R.id.userName).text = contentDTOs!![position].userName // userId
-            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageURL).into(viewholder.findViewById<ImageView>(R.id.uploadImage)) // user upload Image
-            //Glide.with(holder.itemView.context).load(contentDTOs!![position].userImageId).into(viewholder.findViewById<ImageView>(R.id.profileImage)) // user profile Image
+            viewholder.findViewById<TextView>(R.id.userName).setText(contentDTOs!![position].userName) // userId
+            Glide.with(holder.itemView.context).load(contentDTOs!![position].imageURL).into(viewholder.findViewById(R.id.uploadImage)) // user upload Image
+            //Glide.with(holder.itemView.context).load(contentDTOs!![position].userImageId).into(viewholder.findViewById(R.id.profileImage)) // user profile Image
             viewholder.findViewById<TextView>(R.id.description).text = contentDTOs!![position].explain// description
             viewholder.findViewById<TextView>(R.id.like_count).text = "좋아요 " + contentDTOs!![position].favoriteCount + "개"// favorite Count
 
@@ -122,12 +142,14 @@ class homeFragment : Fragment() {
             }
 
 
+/*
             //comment 버튼 누르면 댓글창으로 넘어감
             viewholder.findViewById<ImageView>(R.id.comment).setOnClickListener { view ->
                 var intent = Intent(view.context, CommentActivity::class.java)
                 intent.putExtra("contentUserId", contentUserIdList[position]) // 내가 선택한 userId 값이 넘어감
                 startActivity(intent)
             }
+*/
         }
 
 
@@ -156,3 +178,4 @@ class homeFragment : Fragment() {
         }
     }
 }
+

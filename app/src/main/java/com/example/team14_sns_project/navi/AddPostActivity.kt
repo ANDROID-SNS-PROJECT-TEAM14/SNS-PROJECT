@@ -9,6 +9,7 @@ import com.example.team14_sns_project.NaviActivity
 import com.example.team14_sns_project.navi.data.ContentDTO
 import com.example.team14_sns_project.databinding.ActivityAddPostBinding
 import com.example.team14_sns_project.databinding.ActivityNaviBinding
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -48,11 +49,16 @@ class  AddPostActivity : AppCompatActivity() {
         // 이 액티비티가 시작하자마자 앨범이 열리도록
         var photoPickIntent = Intent(Intent.ACTION_PICK)
         photoPickIntent.type = "image/*"
+        startActivityForResult(photoPickIntent, IMAGE_FROM_ALBUM)
 
-        binding.addphotoImageBtn.setOnClickListener { // 이미지 선택하는 경우
+
+
+/*
+        binding.addphotoImage.setOnClickListener { // 이미지 선택하는 경우
             startActivityForResult(photoPickIntent, IMAGE_FROM_ALBUM)
         }
-
+*/
+        // 사진은 무조건 선택해야함
         binding.uploadBtn.setOnClickListener { // uploadBtn에 이벤트 추가
             contentUpload()
         }
@@ -80,25 +86,26 @@ class  AddPostActivity : AppCompatActivity() {
         // 이미지 업로드
         var storageRef = storage?.reference?.child("images")?.child(imageFileName)
         storageRef?.putFile(photoUri!!)?.addOnCompleteListener {
-            if (it.isSuccessful) { // 업로드 성공했을때
+            //if (it.isSuccessful) { // 업로드 성공했을때
                 storageRef.downloadUrl.addOnSuccessListener { uri -> // 이미지 업로드 완료했으면 이미지 주소를 받아옴
 
                     var contentDTO = ContentDTO() // 이미지 주소를 받아오자마자 data model을 만들어줌
 
-
                     contentDTO.explain = binding.editDescription.text.toString() // desription
                     contentDTO.imageURL = uri.toString() // downloadUrl을 넣어줌
-                    contentDTO.uID = auth?.currentUser?.uid // 현재 유저의 id
+                    contentDTO.uID = auth?.currentUser?.uid // 현재 유저의 Uid
                     contentDTO.userImageId = userEmail // 컨텐츠 올린 유저의 프로필 이미지 */
                     contentDTO.userName = userName
                     contentDTO.userEmail = userEmail
                     contentDTO.timestamp = System.currentTimeMillis() // 시간
 
                     firestore?.collection("userInfo")?.document()?.set(contentDTO)
+
                     setResult(Activity.RESULT_OK) // 정상적으로 닫혔다는 frag 값을 넘겨주기 위해서
                     finish()
+
                 }
             }
-        }
+       // }
     }
 }
