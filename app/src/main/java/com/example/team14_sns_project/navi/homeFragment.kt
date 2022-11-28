@@ -45,7 +45,7 @@ class homeFragment : Fragment() {
         userName = parent.userName
 
         // adapter
-        adapter = HomeAdapter()
+        adapter = HomeAdapter(parent)
         // 현재 사용자의 정보들을 설정해준다.
         adapter.setUser(userEmail, userId, userName)
 

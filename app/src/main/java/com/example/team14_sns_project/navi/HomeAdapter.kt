@@ -1,6 +1,7 @@
 package com.example.team14_sns_project.navi
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +13,20 @@ import com.bumptech.glide.Glide
 import com.example.team14_sns_project.R
 import com.example.team14_sns_project.navi.data.ContentDTO
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 private var myEmail : String = "user"  // NullException을 막기위해 일단 init
 private var myId : String = "user"  // NullException을 막기위해 일단 init
 private var myName: String = "user"  // NullException을 막기위해 일단 init
 
-class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
-    private var fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
-    private var contentDTOs: ArrayList<ContentDTO> = ArrayList()
-    private var contentUserIdList: ArrayList<String> = ArrayList() // UserId 를 담을 List
+private var fireStore: FirebaseFirestore = FirebaseFirestore.getInstance()
+private var contentDTOs: ArrayList<ContentDTO> = ArrayList()
+private var contentUserIdList: ArrayList<String> = ArrayList() // UserId 를 담을 List
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {}
+class HomeAdapter(contexts : Context) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+    var context: Context = contexts
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context)
@@ -35,22 +39,23 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
         viewholder.findViewById<TextView>(R.id.userName).text = contentDTOs!![position].userName // userId
         Glide.with(holder.itemView.context).load(contentDTOs!![position].imageURL).into(viewholder.findViewById(R.id.uploadImage)) // user upload Image
         viewholder.findViewById<TextView>(R.id.description).text = contentDTOs!![position].explain// description
-        viewholder.findViewById<TextView>(R.id.like_count).text = "좋아요 " + contentDTOs!![position].favoriteCount + "개"// favorite Count
+//        viewholder.findViewById<TextView>(R.id.like_count).text = "좋아요 " + contentDTOs!![position].favoriteCount + "개"// favorite Count
+//
+//        // favorite 버튼에 이벤트
+//        viewholder.findViewById<ImageView>(R.id.heart_line).setOnClickListener {
+//            favoriteEvent(position)
+//            Log.w("favoritesUserList", "클릭")
+//        }
 
-        // favorite 버튼에 이벤트
-        viewholder.findViewById<ImageView>(R.id.heart_line).setOnClickListener {
-            favoriteEvent(position)
-        }
-
-        Log.w("@@@@@@@", "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        // 오류로 막아둠
         // 좋아요 수와 좋아요 색이 채워지거나 비워지는 이벤트
-        if(contentDTOs!![position].favoritesUserList.containsKey(myId)) {// 나의 userId가 포함되어 있을 경우
-            viewholder.findViewById<ImageView>(R.id.heart_line).setImageResource(R.drawable.ic_favorite) // 좋아요 클릭한 부분 - 채워진 하트
-            Log.w("@@@@@@@", "#############################")
-        } else { // 포함되어 있지 않을 경우
-            viewholder.findViewById<ImageView>(R.id.heart_line).setImageResource(R.drawable.ic_favorite_border) // 아직 좋아요 클릭하지 않은 부분 - 비워진 하트
-            Log.w("@@@@@@@", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        }
+//        if(contentDTOs!![position].favoritesUserList.containsKey(myId)) {// 나의 userId가 포함되어 있을 경우
+//            Log.w("favoritesUserList", "하트")
+//            viewholder.findViewById<ImageView>(R.id.heart_line).setImageResource(R.drawable.ic_favorite) // 좋아요 클릭한 부분 - 채워진 하트
+//        } else { // 포함되어 있지 않을 경우
+//            Log.w("favoritesUserList", "빈 하트")
+//            viewholder.findViewById<ImageView>(R.id.heart_line).setImageResource(R.drawable.ic_favorite_border) // 아직 좋아요 클릭하지 않은 부분 - 비워진 하트
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -72,7 +77,7 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
     }
 
     // 좋아요 누르면 생기는 이벤트
-    private fun favoriteEvent(position: Int) {
+    fun favoriteEvent(position: Int) {
         // 내가 선택한 컨텐츠의 userId  받아와서 좋아요를 누르는 이벤트
         // document안에 내가 선택한 컨텐츠 uid값을 넣어줌
         var userInfoDocument = fireStore?.collection("userInfo")?.document(contentUserIdList[position])
@@ -88,7 +93,6 @@ class HomeAdapter : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
             } else { // 좋아요 버튼이 눌려있지 않을 경우
                 contentDTO?.favoriteCount = contentDTO.favoriteCount +1 // 클릭되지 않은 좋아요가 눌리도록
                 contentDTO?.favoritesUserList?.set(myId!!, true)
-
             }
             it.set(userInfoDocument, contentDTO) // 서버로 돌려줌
         }
